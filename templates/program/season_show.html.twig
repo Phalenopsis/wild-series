@@ -28,7 +28,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Episode {{ episode.number }} - {{ episode.title }}</h5>
                     <p class="card-text">{{ episode.synopsis }}</p>
-
+                    <a href="{{ path('program_episode_show', { programId: program.id, seasonId: season.id, episodeId: episode.id }) }}" class="btn btn-primary">View Episode</a>
                 </div>
             </div>
         </div>
@@ -39,21 +39,4 @@
     {% if program.seasons|length % 2 == 1 %}
         </div>
     {% endif %}
-
-{#   <h1>{{ program.title }} - Season {{ season.number }}</h1>#}
-{#   {{ season.year }}#}
-{#    <p>{{ season.description }}</p>#}
-{#   <h2>Episodes</h2>#}
-{#   <ul>#}
-{#      {% for episode in season.episodes %}#}
-{#         <li><h3>{{ episode.number }} - {{ episode.title }}</h3>#}
-{#            <p>Synopsis : {{ episode.synopsis }}</p>#}
-{#         </li>#}
-{#      {% endfor %}#}
-{#   </ul>#}
-{#   {{ dump( program ) }}#}
-{#   {{ dump( season ) }}#}
-{#   {% for episode in season.episodes %}#}
-{#      {{ dump(episode) }}#}
-{#   {% endfor %}#}
 {% endblock %}

@@ -16,6 +16,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         ['title' => 'Astro le petit Robot', 'synopsis' => 'Un petit robot sauve la terre', 'category' => 'category_Animation', 'country' => 'Japon', 'year' => 1980],
         ['title' => 'Goldorak', 'synopsis' => 'Un gros robot sauve la terre', 'category' => 'category_Animation', 'country' => 'Japon', 'year' => 1975],
         ['title' => 'Friends', 'synopsis' => 'Des amis envahissent New York', 'category' => 'category_Comédie', 'country' => 'USA', 'year' => 1994],
+        ['title' => 'All of us are dead', 'synopsis' => 'Des zombies envahissent Hyosan', 'category' => 'category_Horreur', 'country' => 'Coree', 'year' => 2022],
 
     ];
     public function getDependencies(): array
@@ -38,6 +39,11 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $this->addReference('program_' . $programDescription['title'], $program);
         }
         $manager->flush();
+    }
+
+    static function getTitles(): array
+    {
+        return array_map(fn ($arr) => $arr['title'], self::PROGRAMS);
     }
 }
 

@@ -14,8 +14,10 @@
     </head>
     <body>
         {% include '_navbar.html.twig' %}
-
+        <main>
         {% block body %}{% endblock %}
-        {% include '_links.html.twig' %}
+            {% include '_links.html.twig' %}
+        </main>
+
     </body>
 </html>

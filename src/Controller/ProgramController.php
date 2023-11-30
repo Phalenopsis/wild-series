@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CategoryRepository;
 use App\Repository\SeasonRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +16,7 @@ class ProgramController extends AbstractController
     public function index(ProgramRepository $programRepository): Response
     {
         $programs = $programRepository->findAll();
+
 
         return $this->render('program/index.html.twig', [
             'programs' => $programs,

@@ -31,4 +31,9 @@ class CategoryFixtures extends Fixture
 
         $manager->flush();
     }
+
+    static function getCategories(): array
+    {
+        return self::CATEGORIES;
+    }
 }

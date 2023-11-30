@@ -3,16 +3,54 @@
 {% block title %}Série {{ program.title }}{% endblock %}
 
 {% block body %}
-   <h1>{{ program.title }} - Season {{ season.number }}</h1>
-   {{ season.year }}
-   <h2>Episodes</h2>
-   <ul>
-      {% for episode in season.episodes %}
-         <li><h3>{{ episode.number }} - {{ episode.title }}</h3>
-            <p>Synopsis : {{ episode.synopsis }}</p>
-         </li>
-      {% endfor %}
-   </ul>
+    <div class="program card text-center">
+        <div class="card-header">
+            {{ program.category.name }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ program.title }}</h5>
+            <p class="card-text">{{ program.synopsis }}</p>
+            <p class="card-text">Season {{ season.number }}</p>
+            {% include '/program/_season_pagination.html.twig' %}
+
+        </div>
+        <div class="card-footer text-muted">
+            {{ program.country }} - {{ program.year }}
+        </div>
+    </div>
+
+    {% for episode in season.episodes %}
+        {% if loop.index % 2 == 1 %}
+            <div class="program row">
+        {% endif %}
+        <div class="col-sm-6">
+            <div class="program card episode">
+                <div class="card-body">
+                    <h5 class="card-title">Episode {{ episode.number }} - {{ episode.title }}</h5>
+                    <p class="card-text">{{ episode.synopsis }}</p>
+
+                </div>
+            </div>
+        </div>
+        {% if loop.index % 2 == 0 %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if program.seasons|length % 2 == 1 %}
+        </div>
+    {% endif %}
+
+{#   <h1>{{ program.title }} - Season {{ season.number }}</h1>#}
+{#   {{ season.year }}#}
+{#    <p>{{ season.description }}</p>#}
+{#   <h2>Episodes</h2>#}
+{#   <ul>#}
+{#      {% for episode in season.episodes %}#}
+{#         <li><h3>{{ episode.number }} - {{ episode.title }}</h3>#}
+{#            <p>Synopsis : {{ episode.synopsis }}</p>#}
+{#         </li>#}
+{#      {% endfor %}#}
+{#   </ul>#}
 {#   {{ dump( program ) }}#}
 {#   {{ dump( season ) }}#}
 {#   {% for episode in season.episodes %}#}

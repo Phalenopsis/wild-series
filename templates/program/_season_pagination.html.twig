@@ -1,0 +1,22 @@
+<nav aria-label="...">
+    <ul class="pagination">
+{#        <li class="page-item disabled">#}
+{#            <span class="page-link">Previous</span>#}
+{#        </li>#}
+        {% for programseason in program.seasons %}
+            {% if programseason.number == season.number %}
+                <li class="page-item active">
+                    <span class="page-link">
+                        {{ season.number }}
+                    </span>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="{{  path('program_season_show', { programId: program.id, seasonId: programseason.id })  }}">
+                        {{ programseason.number }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</nav>

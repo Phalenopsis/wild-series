@@ -1,7 +1,5 @@
 @import "~bootstrap/scss/bootstrap";
 
-
-
 $primary: darken(#428bca, 20%);
 $nav-bg: #9EED60;
 $dropdown-bg-color: #D3F11B;
@@ -12,9 +10,15 @@ $nav-text-light : lighten($nav-text, 10%);
 
 
 
+
+
+
+
 :root{
     --bs-light-rgb: 158,237,96;
+
     --bs-emphasis-color-rgb: 0,60,115;
+    --nav-text: $nav-text;
 }
 .btn-primary{
     background-color: $nav-text-light;
@@ -35,7 +39,7 @@ main {
     }
 }
 .navbar-brand{
-    --bs-navbar-brand-color: #003C73;
+    --bs-navbar-brand-color: $nav-text;
 }
 .navbar-collapse{
     flex-grow: initial;

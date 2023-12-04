@@ -7,6 +7,10 @@ use App\Repository\ProgramRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\CategoryType;
+use App\Entity\Category;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\ORM\EntityManagerInterface;
 
 #[Route('/category', name: 'category_')]
 class CategoryController extends AbstractController
@@ -18,6 +22,27 @@ class CategoryController extends AbstractController
 
         return $this->render('category/index.html.twig', [
             'categories' => $categories,
+        ]);
+    }
+
+    #[Route('/new', name: 'new')]
+    public function new(Request $request, EntityManagerInterface $entityManager) : Response
+    {
+        $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $entityManager->persist($category);
+            $entityManager->flush();
+
+            // Redirect to categories list
+            return $this->redirectToRoute('category_index');
+        }
+
+        // Render the form
+        return $this->render('category/new.html.twig', [
+            'form' => $form,
         ]);
     }
 

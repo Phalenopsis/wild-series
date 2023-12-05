@@ -36,7 +36,7 @@ class ProgramController extends AbstractController
         $form = $this->createForm(ProgramType::class, $category);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($category);
             $entityManager->flush();
 

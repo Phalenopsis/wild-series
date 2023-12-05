@@ -14,10 +14,12 @@
     </head>
     <body>
         {% include '_navbar.html.twig' %}
+        {% include '_flash.html.twig' %}
         <main>
         {% block body %}{% endblock %}
             {% include '_links.html.twig' %}
         </main>
+
 
     </body>
 </html>

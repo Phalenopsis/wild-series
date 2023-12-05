@@ -29,7 +29,7 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'new')]
+    #[Route('/new', name: 'app_program_new')]
     public function new(Request $request, EntityManagerInterface $entityManager) : Response
     {
         $category = new Program();
@@ -42,7 +42,7 @@ class ProgramController extends AbstractController
             // add flash message
             $this->addFlash('success', 'The new program has been created');
             // Redirect to categories list
-            return $this->redirectToRoute('program_index');
+            return $this->redirectToRoute('program_app_program_index');
         }
 
         // Render the form
@@ -83,7 +83,23 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_program_edit', methods: ['GET', 'POST'])]
+    #[Route('/all', name: 'app_program_index', methods: ['GET'])]
+    public function indexAdmin(ProgramRepository $programRepository): Response
+    {
+        return $this->render('program/indexAll.html.twig', [
+            'programs' => $programRepository->findAll(),
+        ]);
+    }
+    #[Route('/{id}', name: 'app_program_show', methods: ['GET'])]
+    public function showProgram(Program $program): Response
+    {
+        return $this->render('program/show.html.twig', [
+            'program' => $program,
+        ]);
+    }
+
+
+    #[Route('/edit/{id}/edit', name: 'app_program_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
@@ -92,7 +108,7 @@ class ProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_program_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('program/edit.html.twig', [
@@ -110,14 +126,8 @@ class ProgramController extends AbstractController
             $this->addFlash('danger', 'The program has been deleted');
         }
 
-        return $this->redirectToRoute('app_season_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/all', name: 'app_program_index', methods: ['GET'])]
-    public function indexAdmin(ProgramRepository $programRepository): Response
-    {
-        return $this->render('program/indexAll.html.twig', [
-            'programs' => $programRepository->findAll(),
-        ]);
-    }
+
 }

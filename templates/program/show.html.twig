@@ -7,7 +7,9 @@
         <div class="card-header">
             {{ program.category.name }}
         </div>
+        {{ dump(program.seasons) }}
         <div class="card-body">
+            <img class="card-img-top" src="{{ program.poster }}" alt="poster de {{ program.title }}">
             <h5 class="card-title">{{ program.title }}</h5>
             <p class="card-text">{{ program.synopsis }}</p>
         </div>

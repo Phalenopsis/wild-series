@@ -14,7 +14,9 @@
 
         </div>
         <div class="card-footer text-muted">
-            {{ program.country }} - {{ season.year }}
+            {{ program.country }} - {{ season.year }} - {{ episode.duration }} min
+        </div><div class="card-footer text-muted">
+            <a href="{{ path('app_episode_edit', { slug: episode.slug }) }}" class="btn btn-primary">Edit Episode</a>
         </div>
     </div>
 

@@ -21,7 +21,7 @@
 
     {% for season in program.seasons %}
         {% if loop.index % 2 == 1 %}
-    <div class="program row">
+            <div class="program row">
         {% endif %}
         <div class="col-sm-6">
             <div class="program card">
@@ -29,6 +29,7 @@
                     <h5 class="card-title">Season {{ season.number }} - {{ season.year }}</h5>
                     <p class="card-text">{{ season.description }}</p>
                     <a href="{{ path('program_season_show', { programSlug: program.slug, seasonId: season.id }) }}" class="btn btn-primary">View Season</a>
+                    <a href="{{ path('app_season_edit', { id: season.id }) }}" class="btn btn-primary">Edit Season</a>
                 </div>
             </div>
         </div>

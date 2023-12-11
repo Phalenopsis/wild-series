@@ -33,6 +33,11 @@ class Actor
         $this->programs = new ArrayCollection();
     }
 
+    public function getName(): ?string
+    {
+        return $this->getFirstname() . ' ' . $this->getLastname();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

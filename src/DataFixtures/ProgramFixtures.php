@@ -6,6 +6,7 @@ use App\Entity\Program;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 class ProgramFixtures extends Fixture implements DependentFixtureInterface
@@ -19,6 +20,13 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         ['title' => 'All of us are dead', 'poster' => 'https://media-mcetv.ouest-france.fr/wp-content/uploads/2022/01/squid-game-une-actrice-de-la-serie-joue-aussi-dans-all-of-us-are-dead-1200-min.jpg', 'synopsis' => 'Des zombies envahissent Hyosan', 'category' => 'category_Horreur', 'country' => 'Coree', 'year' => 2022],
 
     ];
+
+    private SluggerInterface $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
     public function getDependencies(): array
     {
         return [
@@ -36,6 +44,8 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->setYear($programDescription['year']);
             $program->setCountry($programDescription['country']);
             $program->setCategory($this->getReference($programDescription['category']));
+            $slug = $this->slugger->slug($program->getTitle());
+            $program->setSlug($slug);
             $manager->persist($program);
             $this->addReference('program_' . $programDescription['title'], $program);
         }

@@ -25,7 +25,7 @@
                 <td>{{ program.country }}</td>
                 <td>{{ program.year }}</td>
                 <td>
-                    <a href="{{ path('program_app_program_show', {'id': program.id}) }}">show</a>
+                    <a href="{{ path('program_app_program_show', {'slug': program.slug}) }}">show</a>
                     <a href="{{ path('program_app_program_edit', {'id': program.id}) }}">edit</a>
                 </td>
             </tr>

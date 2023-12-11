@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProgramRepository;
 use App\Form\ProgramType;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -30,14 +31,16 @@ class ProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'app_program_new')]
-    public function new(Request $request, EntityManagerInterface $entityManager) : Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger) : Response
     {
-        $category = new Program();
-        $form = $this->createForm(ProgramType::class, $category);
+        $program = new Program();
+        $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($category);
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
+            $entityManager->persist($program);
             $entityManager->flush();
             // add flash message
             $this->addFlash('success', 'The new program has been created');
@@ -51,7 +54,7 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/show/{id}', name: 'show', requirements: ['id'=>'\d+'], methods: ['GET'])]
+    #[Route('/show/{slug}', name: 'show', methods: ['GET'])]
     public function show(Program $program): Response
     {
         return $this->render('program/show.html.twig', [
@@ -90,7 +93,7 @@ class ProgramController extends AbstractController
             'programs' => $programRepository->findAll(),
         ]);
     }
-    #[Route('/{id}', name: 'app_program_show', methods: ['GET'])]
+    #[Route('/{slug}', name: 'app_program_show', methods: ['GET'])]
     public function showProgram(Program $program): Response
     {
         return $this->render('program/show.html.twig', [
@@ -100,12 +103,15 @@ class ProgramController extends AbstractController
 
 
     #[Route('/edit/{id}/edit', name: 'app_program_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Program $program, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
+
             $entityManager->flush();
 
             return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER);

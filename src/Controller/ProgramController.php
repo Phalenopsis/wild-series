@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ProgramRepository;
 use App\Form\ProgramType;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -41,11 +42,16 @@ class ProgramController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
+
+
+
             $entityManager->persist($program);
             $entityManager->flush();
 
+            //envoi de l'email pour prévenir de la nouvelle série
             $email = (new Email())
                 ->from($this->getParameter('mailer_from'))
                 ->to('your_email@example.com')

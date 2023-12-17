@@ -3,12 +3,39 @@
 {% block title %}Hello ActorController!{% endblock %}
 
 {% block body %}
-<h1>{{ actor.firstname }} {{ actor.lastname }}</h1>
-    Birthday : {{ actor.birthdate|date("d/m/Y") }}
-    Programs :
-    <ul>
-        {% for program in actor.programs %}
-            <li><a href="{{ path('program_show', { slug: program.slug}) }}">{{ program.title }}</a></li>
-        {% endfor %}
-    </ul>
+{#<h1>{{ actor.firstname }} {{ actor.lastname }}</h1>#}
+{#    {% if actor.updatedAt is null %}#}
+{#        No image#}
+{#    {% else %}#}
+{#        <img class="card-img-top" src="{{ vich_uploader_asset(actor) }}" alt="{{ actor.firstname }} {{ actor.lastname }}">#}
+{#    {% endif %}#}
+{#    Birthday : {{ actor.birthdate|date("d/m/Y") }}#}
+{#    Programs :#}
+{#    <ul>#}
+{#        {% for program in actor.programs %}#}
+{#            <li><a href="{{ path('program_show', { slug: program.slug}) }}">{{ program.title }}</a></li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="{{ vich_uploader_asset(actor) }}" alt="{{ actor.firstname }} {{ actor.lastname }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ actor.firstname }} {{ actor.lastname }}</h5>
+               </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Birthday : {{ actor.birthdate|date("d/m/Y") }}</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Programs :
+                <ul>
+                    {% for program in actor.programs %}
+                        <li><a href="{{ path('program_show', { slug: program.slug}) }}">{{ program.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+        <div class="card-body">
+            <a href="{{ path('actor_edit', {slug : actor.slug}) }}" class="card-link">Edit actor</a>
+
+        </div>
+    </div>
 {% endblock %}

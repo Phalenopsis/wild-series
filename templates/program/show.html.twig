@@ -8,7 +8,11 @@
             {{ program.category.name }}
         </div>
         <div class="card-body">
-            <img class="card-img-top" src="{{ program.poster }}" alt="poster de {{ program.title }}">
+            {% if program.updatedAt is null %}
+                <img class="card-img-top" src="{{ program.poster }}" alt="poster de {{ program.title }}">
+            {% else %}
+                <img class="card-img-top" src="{{ vich_uploader_asset(program) }}" alt="{{ program.title }}">
+            {% endif %}
             <h5 class="card-title">{{ program.title }}</h5>
             <p class="card-text">{{ program.synopsis }}</p>
         </div>
@@ -43,9 +47,11 @@
     <strong>Acteurs :</strong>
     <ul>
         {% for actor in program.actors %}
-            <li><a href="{{ path('actor_show', { id: actor.id}) }}">{{ actor.firstname }} {{ actor.lastname }}</a></li>
+            <li><a href="{{ path('actor_show', { slug: actor.slug}) }}">{{ actor.firstname }} {{ actor.lastname }}</a></li>
         {% else %}
             <li>Aucun acteur pour cette série</li>
         {% endfor %}
     </ul>
+
+    <a href="{{ path('program_edit', {slug: program.slug}) }}">Editer le programme</a>
 {% endblock %}

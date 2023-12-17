@@ -7,10 +7,17 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker\Factory;
-;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 class ActorFixtures extends Fixture implements DependentFixtureInterface
 {
+    private SluggerInterface $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
@@ -22,6 +29,8 @@ class ActorFixtures extends Fixture implements DependentFixtureInterface
             $actor = new Actor();
             $actor->setFirstname($faker->firstName());
             $actor->setLastname($faker->lastName());
+            $slug = $this->slugger->slug($actor->getFirstname() . ' ' . $actor->getLastname());
+            $actor->setSlug($slug);
             $actor->setBirthdate($faker->dateTimeBetween('-80 year', '-10 year'));
             foreach ($programsRandKeys as $key){
                 $actor->addProgram($this->getReference('program_' . $programs[$key]));

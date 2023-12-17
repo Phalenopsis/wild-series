@@ -34,7 +34,7 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_program_new')]
+    #[Route('/new', name: 'new')]
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, MailerInterface $mailer) : Response
     {
         $program = new Program();
@@ -62,7 +62,7 @@ class ProgramController extends AbstractController
             // add flash message
             $this->addFlash('success', 'The new program has been created');
             // Redirect to categories list
-            return $this->redirectToRoute('program_app_program_index');
+            return $this->redirectToRoute('program_index');
         }
 
         // Render the form
@@ -104,14 +104,14 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/all', name: 'app_program_index', methods: ['GET'])]
+    #[Route('/all', name: 'index', methods: ['GET'])]
     public function indexAdmin(ProgramRepository $programRepository): Response
     {
         return $this->render('program/indexAll.html.twig', [
             'programs' => $programRepository->findAll(),
         ]);
     }
-    #[Route('/admin/{slug}', name: 'app_program_show', methods: ['GET'])]
+    #[Route('/admin/{slug}', name: 'show', methods: ['GET'])]
     public function showProgram(Program $program, ProgramDuration $programDuration): Response
     {
         return $this->render('program/show_edit.html.twig', [
@@ -121,7 +121,7 @@ class ProgramController extends AbstractController
     }
 
 
-    #[Route('/edit/{slug}/edit', name: 'app_program_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{slug}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ProgramType::class, $program);
@@ -133,7 +133,7 @@ class ProgramController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('program/edit.html.twig', [
@@ -142,7 +142,7 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'app_program_delete', methods: ['POST'])]
+    #[Route('/{slug}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Program $program, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
@@ -151,7 +151,7 @@ class ProgramController extends AbstractController
             $this->addFlash('danger', 'The program has been deleted');
         }
 
-        return $this->redirectToRoute('program_app_program_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
     }
 
 

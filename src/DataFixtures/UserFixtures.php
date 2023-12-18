@@ -11,8 +11,8 @@ class UserFixtures extends Fixture
 {
     private UserPasswordHasherInterface $passwordHasher;
     private const USERS = [
-        ['email' => 'user@site.com', 'password' => 'plopuser', 'roles' => 'USER'],
-        ['email' => 'admin@site.com', 'password' => 'plopadmin', 'roles' => 'ADMIN'],
+        ['email' => 'user@site.com', 'password' => 'plopuser', 'roles' => ['ROLE_USER']],
+        ['email' => 'admin@site.com', 'password' => 'plopadmin', 'roles' => ['ROLE_ADMIN']],
     ];
 
     public function __construct(UserPasswordHasherInterface $passwordHasher){
@@ -28,7 +28,7 @@ class UserFixtures extends Fixture
         foreach (self::USERS as $user){
             $newUser = new User();
             $newUser->setEmail($user['email']);
-            $newUser->setRoles([$user['roles']]);
+            $newUser->setRoles($user['roles']);
             $hashedPassword = $this->passwordHasher->hashPassword(
                 $newUser,
                 $user['password'],

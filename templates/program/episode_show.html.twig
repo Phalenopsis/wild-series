@@ -18,6 +18,20 @@
         </div><div class="card-footer text-muted">
             <a href="{{ path('app_episode_edit', { slug: episode.slug }) }}" class="btn btn-primary">Edit Episode</a>
         </div>
+
+        {% if app.user is defined and app.user is not null %}
+            <div class="card-footer text-muted">
+                {% include 'program/_form.html.twig' %}
+            </div>
+        {% endif %}
+        {% for comment in episode.comments|reverse %}
+        <div class="card-footer text-muted">{{ comment.comment }}</div>
+        <div class="card-text">
+            {% for i in 0..(comment.rate-1)  %}
+                ⭐
+            {% endfor %}
+        </div>
+        {% endfor %}
     </div>
 
 

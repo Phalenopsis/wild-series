@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
+use App\Form\CommentType;
 use App\Repository\SeasonRepository;
 use App\Service\ProgramDuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
@@ -19,6 +22,7 @@ use App\Repository\ProgramRepository;
 use App\Form\ProgramType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -95,12 +99,35 @@ class ProgramController extends AbstractController
     #[Route('/show/{programSlug}/seasons/{seasonId}/episode/{episodeSlug}', name: 'episode_show')]
     public function showEpisode(#[MapEntity(mapping: ['programSlug' => 'slug'])] Program $program,
                                 #[MapEntity(mapping: ['seasonId' => 'id'])] Season $season,
-                                #[MapEntity(mapping: ['episodeSlug' => 'slug'])] Episode $episode):Response
+                                #[MapEntity(mapping: ['episodeSlug' => 'slug'])] Episode $episode,
+                                Request $request,
+                                EntityManagerInterface $entityManager,
+                                RequestStack $requestStack
+                                ):Response
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setEpisode($episode);
+            $session = $requestStack->getSession();
+
+            $comment->setAuthor($this->getUser());
+            $this->addFlash('danger', 'The ' . $episode->getTitle() . ' has been posted by ' . $this->getUser()->getUserIdentifier());
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->render('program/episode_show.html.twig',[
             'program' => $program,
             'season' => $season,
             'episode' => $episode,
+            'form' => $form,
+            'comment' => $comment,
         ]);
     }
 

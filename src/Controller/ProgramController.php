@@ -23,6 +23,7 @@ use App\Form\ProgramType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
@@ -50,7 +51,7 @@ class ProgramController extends AbstractController
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
 
-
+            $program->setOwner($this->getUser());
 
             $entityManager->persist($program);
             $entityManager->flush();
@@ -131,26 +132,32 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/all', name: 'index', methods: ['GET'])]
-    public function indexAdmin(ProgramRepository $programRepository): Response
-    {
-        return $this->render('program/indexAll.html.twig', [
-            'programs' => $programRepository->findAll(),
-        ]);
-    }
-    #[Route('/admin/{slug}', name: 'show', methods: ['GET'])]
-    public function showProgram(Program $program, ProgramDuration $programDuration): Response
-    {
-        return $this->render('program/show_edit.html.twig', [
-            'program' => $program,
-            'programDuration' => $programDuration->calculate($program),
-        ]);
-    }
+//    #[Route('/all', name: 'index', methods: ['GET'])]
+//    public function indexAdmin(ProgramRepository $programRepository): Response
+//    {
+//        return $this->render('program/indexAll.html.twig', [
+//            'programs' => $programRepository->findAll(),
+//        ]);
+//    }
+//    #[Route('/admin/{slug}', name: 'show_admin', methods: ['GET'])]
+//    public function showProgram(Program $program, ProgramDuration $programDuration): Response
+//    {
+//        return $this->render('program/show_edit.html.twig', [
+//            'program' => $program,
+//            'programDuration' => $programDuration->calculate($program),
+//        ]);
+//    }
 
 
     #[Route('/edit/{slug}', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Program $program, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        if ($this->getUser() !== $program->getOwner()) {
+            // If not the owner, throws a 403 Access Denied exception
+            throw $this->createAccessDeniedException('Only the owner can edit the program!');
+
+        }
+
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 

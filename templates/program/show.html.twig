@@ -15,6 +15,7 @@
             {% endif %}
             <h5 class="card-title">{{ program.title }}</h5>
             <p class="card-text">{{ program.synopsis }}</p>
+            <p class="card-text">{{ program.owner.email }}</p>
         </div>
         <div class="card-footer text-muted">
             {{ program.country }} - {{ program.year }}

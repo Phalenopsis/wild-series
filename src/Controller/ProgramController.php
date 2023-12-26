@@ -115,12 +115,16 @@ class ProgramController extends AbstractController
             $session = $requestStack->getSession();
 
             $comment->setAuthor($this->getUser());
-            $this->addFlash('danger', 'The ' . $episode->getTitle() . ' has been posted by ' . $this->getUser()->getUserIdentifier());
+            $this->addFlash('alert', 'The ' . $episode->getTitle() . ' has been commented by ' . $this->getUser()->getUserIdentifier());
 
             $entityManager->persist($comment);
             $entityManager->flush();
 
-            return $this->redirectToRoute('program_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('program_episode_show', [
+                'programSlug' => $program->getSlug(),
+                'seasonId' => $season->getId(),
+                'episodeSlug' => $episode->getSlug()
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('program/episode_show.html.twig',[

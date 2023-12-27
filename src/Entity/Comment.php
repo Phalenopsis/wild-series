@@ -28,7 +28,7 @@ class Comment
 
     #[ORM\Column]
     #[Assert\Range(
-        notInRangeMessage: 'You must be between {{ min }}cm and {{ max }}cm tall to enter',
+        notInRangeMessage: 'Note must be between {{ min }} and {{ max }}',
         min: 0,
         max: 10,
     )]

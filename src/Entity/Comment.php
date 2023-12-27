@@ -28,9 +28,9 @@ class Comment
 
     #[ORM\Column]
     #[Assert\Range(
+        notInRangeMessage: 'You must be between {{ min }}cm and {{ max }}cm tall to enter',
         min: 0,
         max: 10,
-        notInRangeMessage: 'You must be between {{ min }}cm and {{ max }}cm tall to enter',
     )]
     private ?int $rate = null;
 

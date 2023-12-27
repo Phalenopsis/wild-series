@@ -29,12 +29,7 @@
             </div>
         {% endif %}
         {% for comment in episode.comments|reverse %}
-        <div class="card-footer text-muted">{{ comment.comment }}</div>
-        <div class="card-text">
-            {% for i in 0..(comment.rate-1)  %}
-                ⭐
-            {% endfor %}
-        </div>
+            {% include 'comment/_show.html.twig' %}
         {% endfor %}
     </div>
 

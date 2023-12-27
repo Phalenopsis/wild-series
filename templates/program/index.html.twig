@@ -8,9 +8,11 @@
         <div class="card text-center program">
             <div class="card-header">
                 {{ program.category.name }}
+
             </div>
             <div class="card-body">
                 <h5 class="card-title">{{ program.title }}</h5>
+                <div class="right author"> {{ program.owner.email }}</div>
                 <p class="card-text">{{ program.synopsis }}</p>
                 <a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary">Voir la fiche</a>
             </div>

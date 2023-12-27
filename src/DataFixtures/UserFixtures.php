@@ -35,6 +35,7 @@ class UserFixtures extends Fixture
                 $user['password'],
             );
             $newUser->setPassword($hashedPassword);
+            $newUser->setIsVerified(true);
             $this->addReference('user_' . $user['email'], $newUser);
             $manager->persist($newUser);
         }

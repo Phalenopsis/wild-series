@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Wild Series{% endblock %}
+{% block body %}
+    {#    {{ dump(app.user) }}#}
+    <h1>{{ app.user.email }}</h1>
+    <h2>Vos séries</h2>
+    <ul>
+        {% for program in app.user.programs %}
+            <li><a href="{{ path('program_show', {slug: program.slug}) }}">{{ program.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <div>
+        <p>
+            <a href="{{ path('app_logout') }}">se déconnecter</a>
+        </p>
+    </div>
+
+
+{% endblock %}

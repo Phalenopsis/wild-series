@@ -19,6 +19,9 @@ $nav-text-light : lighten($nav-text, 10%);
     --nav-text-light: #3C73FF;
     --bs-emphasis-color-rgb: 0,60,115;
     --nav-text: $nav-text;
+    --navbar-height: 70px;
+    --footer-height: 70px;
+
 }
 .btn,
 .btn-primary{
@@ -33,11 +36,22 @@ body {
 main {
     margin-left: 5vw;
     margin-right: 5vw;
+    min-height: calc(100vh - calc(var(--navbar-height) + var(--footer-height)));
 }
 @media screen and (width > 600px) {
     main{
-        margin-left: 30vw;
-        margin-right: 30vw;
+        margin-left: 20vw;
+        margin-right: 20vw;
+    }
+}
+nav{
+    height: var(--navbar-height);
+}
+footer{
+    height: var(--footer-height);
+    background: $nav-bg;
+    *{
+        color: var(--nav-text);
     }
 }
 .navbar-brand{
@@ -47,7 +61,7 @@ main {
     flex-grow: initial;
 }
 .index-title {
-    height: calc(80vh);
+    //min-height: calc(80vh);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -89,4 +103,15 @@ body > main > div.card.text-center{
 }
 .author{
     font-size: 0.75rem;
+}
+form.login{
+    display: flex;
+    flex-direction: column;
+    & input {
+        width: 15rem;
+    }
+    & button{
+        width: fit-content;
+        margin-top: 0.5rem;
+    }
 }

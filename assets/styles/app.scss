@@ -16,13 +16,15 @@ $nav-text-light : lighten($nav-text, 10%);
 
 :root{
     --bs-light-rgb: 158,237,96;
-
+    --nav-text-light: #3C73FF;
     --bs-emphasis-color-rgb: 0,60,115;
     --nav-text: $nav-text;
 }
+.btn,
 .btn-primary{
-    background-color: $nav-text-light;
+    background-color: var(--nav-text-light);
     color: $background-color;
+    margin: 0.5rem;
 }
 body {
     background-color: $background-color;
@@ -81,4 +83,10 @@ body > main > div.card.text-center{
 }
 .program.card.episode{
     height: 100%;
+}
+.right{
+    text-align: right;
+}
+.author{
+    font-size: 0.75rem;
 }

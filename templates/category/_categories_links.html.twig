@@ -1,0 +1,3 @@
+{% for category_link in categories_links %}
+    <li><a class="dropdown-item" href="{{ path("category_show", { categoryName: category_link.name }) }}">{{ category_link.name }}</a></li>
+{% endfor %}

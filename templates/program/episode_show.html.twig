@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Série {{ program.title }}{% endblock %}
+
+{% block body %}
+    <div class="program card text-center">
+        <div class="card-header">
+            {{ program.title }} - Season {{ season.number }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ episode.number }} - {{ episode.title }}</h5>
+            <p class="card-text">{{ episode.synopsis }}</p>
+            {% include '/program/_episode_pagination.html.twig' %}
+
+        </div>
+        <div class="card-footer text-muted">
+            {{ program.country }} - {{ season.year }} - {{ episode.duration }} min
+        </div>
+
+        {% if is_granted("ROLE_ADMIN") or (is_granted("ROLE_CONTRIBUTOR") and app.user == program.owner) %}
+        <div class="card-footer text-muted">
+            <a href="{{ path('app_episode_edit', { slug: episode.slug }) }}" class="btn btn-primary">Edit Episode</a>
+        </div>
+        {% endif %}
+
+        {% if is_granted("ROLE_USER") %}
+            <div class="card-footer text-muted">
+                {% include 'program/_form.html.twig' %}
+            </div>
+        {% endif %}
+        {% for comment in episode.comments|reverse %}
+            {% include 'comment/_show.html.twig' %}
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

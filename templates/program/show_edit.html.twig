@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Série {{ program.title }}{% endblock %}
+
+{% block body %}
+    <div class="program card text-center">
+        <div class="card-header">
+            {{ program.category.name }}
+        </div>
+        <div class="card-body">
+            {% if program.updatedAt is null %}
+                <img class="card-img-top" src="{{ program.poster }}" alt="poster de {{ program.title }}">
+            {% else %}
+                <img class="card-img-top" src="{{ vich_uploader_asset(program) }}" alt="{{ program.title }}">
+            {% endif %}
+            <h5 class="card-title">{{ program.title }}</h5>
+            <p class="card-text">{{ program.synopsis }}</p>
+        </div>
+        <div class="card-footer text-muted">
+            {{ program.country }} - {{ program.year }}
+        </div><div class="card-footer text-muted">
+            Durée totale de visionnage : {{ programDuration }}
+        </div>
+    </div>
+
+    {% for season in program.seasons %}
+        {% if loop.index % 2 == 1 %}
+            <div class="program row">
+        {% endif %}
+        <div class="col-sm-6">
+            <div class="program card">
+                <div class="card-body">
+                    <h5 class="card-title">Season {{ season.number }} - {{ season.year }}</h5>
+                    <p class="card-text">{{ season.description }}</p>
+                    <a href="{{ path('program_season_show', { programSlug: program.slug, seasonId: season.id }) }}" class="btn btn-primary">View Season</a>
+                    <a href="{{ path('app_season_edit', { id: season.id }) }}" class="btn btn-primary">Edit Season</a>
+                </div>
+            </div>
+        </div>
+        {% if loop.index % 2 == 0 %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if program.seasons|length % 2 == 1 %}
+        </div>
+    {% endif %}
+
+    <strong>Acteurs :</strong>
+    <ul>
+        {% for actor in program.actors %}
+            <li><a href="{{ path('actor_show', { slug: actor.slug}) }}">{{ actor.firstname }} {{ actor.lastname }}</a></li>
+        {% else %}
+            <li>Aucun acteur pour cette série</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

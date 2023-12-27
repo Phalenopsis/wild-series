@@ -1,0 +1,92 @@
+@import "~bootstrap/scss/bootstrap";
+
+$primary: darken(#428bca, 20%);
+$nav-bg: #9EED60;
+$dropdown-bg-color: #D3F11B;
+$background-color : #EEFFBC;
+$nav-text: #003C73;
+$nav-bg-light: lighten($nav-bg, 20%);
+$nav-text-light : lighten($nav-text, 10%);
+
+
+
+
+
+
+
+:root{
+    --bs-light-rgb: 158,237,96;
+    --nav-text-light: #3C73FF;
+    --bs-emphasis-color-rgb: 0,60,115;
+    --nav-text: $nav-text;
+}
+.btn,
+.btn-primary{
+    background-color: var(--nav-text-light);
+    color: $background-color;
+    margin: 0.5rem;
+}
+body {
+    background-color: $background-color;
+    color: $nav-text;
+}
+main {
+    margin-left: 5vw;
+    margin-right: 5vw;
+}
+@media screen and (width > 600px) {
+    main{
+        margin-left: 30vw;
+        margin-right: 30vw;
+    }
+}
+.navbar-brand{
+    --bs-navbar-brand-color: $nav-text;
+}
+.navbar-collapse{
+    flex-grow: initial;
+}
+.index-title {
+    height: calc(80vh);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    h1{
+        font-size: 6rem;
+    }
+    p{
+        font-size: 2rem;
+        text-align: center;
+    }
+}
+.program.card{
+    margin: 1rem;
+    background-color: $nav-bg-light;
+    color : $nav-text;
+}
+.program.row{
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+.program.col-sm-6{
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+body > main > div.card.text-center{
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+}
+.row > *{
+    margin-top: 0.5rem;
+}
+.program.card.episode{
+    height: 100%;
+}
+.right{
+    text-align: right;
+}
+.author{
+    font-size: 0.75rem;
+}

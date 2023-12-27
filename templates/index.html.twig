@@ -1,13 +1,14 @@
-<!doctype html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Bienvenue</h1>
-</body>
-</html>
+{% extends 'base.html.twig' %}
+{% block title %}Wild Series{% endblock %}
+{% block body %}
+{#    {{ dump(app.user) }}#}
+    <div class="index-title">
+        <h1>Bienvenue</h1>
+{#    <img src="{{ asset('build/images/img1.png') }}" alt=""/>#}
+        <p>Le site qu'il est bien pour savoir où qu'elle en est ta dernière série !</p>
+        <ul><h2>Ajouter...</h2>
+            <li><a href="{{ path('program_new') }}">une série</a></li>
+            <li><a href="{{ path('actor_new') }}">un acteur</a></li>
+        </ul>
+    </div>
+{% endblock %}

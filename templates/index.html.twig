@@ -3,12 +3,26 @@
 {% block body %}
 {#    {{ dump(app.user) }}#}
     <div class="index-title">
-        <h1>Bienvenue</h1>
+        <h1>Wild Series</h1>
 {#    <img src="{{ asset('build/images/img1.png') }}" alt=""/>#}
         <p>Le site qu'il est bien pour savoir où qu'elle en est ta dernière série !</p>
-        <ul><h2>Ajouter...</h2>
-            <li><a href="{{ path('program_new') }}">une série</a></li>
-            <li><a href="{{ path('actor_new') }}">un acteur</a></li>
-        </ul>
     </div>
+        <section>
+            <h2>Ajouter...</h2>
+            <ul>
+                <li><a href="{{ path('program_new') }}">une série</a></li>
+                <li><a href="{{ path('actor_new') }}">un acteur</a></li>
+            </ul>
+        </section>
+{#        {{ dump(last_programs) }}#}
+    <section>
+        <h2>Dernières séries ajoutées :</h2>
+        <ul>
+            {% for program in last_programs %}
+                <li><a href="{{ path('program_show', {slug: program.slug}) }}">{{ program.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+
+
 {% endblock %}

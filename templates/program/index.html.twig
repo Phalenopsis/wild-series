@@ -3,34 +3,41 @@
 {% block title %}All programs{% endblock %}
 
 {% block body %}
-    <h1>Toutes les séries de la table program : </h1>
-    {% for program in programs %}
-        <div class="card text-center program">
-            <div class="card-header">
-                {{ program.category.name }}
+    <h1>Toutes les séries : </h1>
 
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ program.title }}</h5>
-                <div class="right author"> {{ program.owner.email }}</div>
-                <p class="card-text">{{ program.synopsis }}</p>
-                <a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary">Voir la fiche</a>
-            </div>
-            <div class="card-footer text-muted">
-                {{ program.year }}
-            </div>
-        </div>
+    <section>
+    <h2>Rechercher une série</h2>
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
 
+        {{ form_widget(form) }}
 
-{#        <div>#}
-{#            <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>#}
-{#            <p>{{ program.synopsis }}</p>#}
-{#            <a href="{{ path("program_show", { id: program.id }) }}">Voir la fiche</a>#}
-{#        </div>#}
-    {% else %}
-        Aucune série trouvée.
-    {% endfor %}
-    <a href="{{ path('app_index') }}">
-        Retour à l'accueil
-    </a>
+        <button type="submit">Search program</button>
+
+        {{ form_end(form) }}
+
+    </section>
+    <section>
+        <h2>Liste des séries</h2>
+        {% for program in programs %}
+            <div class="card text-center program">
+                <div class="card-header">
+                    {{ program.category.name }}
+
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ program.title }}</h5>
+                    <div class="right author"> {{ program.owner.email }}</div>
+                    <p class="card-text">{{ program.synopsis }}</p>
+                    <a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary">Voir la fiche</a>
+                </div>
+                <div class="card-footer text-muted">
+                    {{ program.year }}
+                </div>
+            </div>
+
+        {% else %}
+            Aucune série trouvée.
+        {% endfor %}
+    </section>
 {% endblock %}

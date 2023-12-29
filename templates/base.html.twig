@@ -15,10 +15,15 @@
     <body {{ stimulus_controller('theme') }} {{ stimulus_target('theme', 'body') }}>
         {% include '_navbar.html.twig' %}
         {% include '_flash.html.twig' %}
-        <main>
-        {% block body %}{% endblock %}
+        <div class="d-flex">
+            <aside class="d-flex flex-column px-3">
+                {% include '_links.html.twig' %}
+            </aside>
+            <main>
+            {% block body %}{% endblock %}
 
-        </main>
+            </main>
+        </div>
 
     {% include '_footer.html.twig' %}
     </body>

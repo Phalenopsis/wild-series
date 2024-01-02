@@ -1,3 +1,11 @@
 <div{{ attributes }}>
     <!-- component html -->
+    <input type="text" value="" data-model="query"/>
+
+    <p>Results</p>
+    <ul>
+        {% for program in this.Programs %}
+         <li>{{ program.title }}</li>
+        {% endfor %}
+    </ul>
 </div>

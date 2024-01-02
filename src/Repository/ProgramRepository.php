@@ -23,25 +23,32 @@ class ProgramRepository extends ServiceEntityRepository
 
     public function findLikeName(string $name)
     {
-        $queryBuilder = $this->createQueryBuilder('p')
-            ->where('p.title LIKE :name')
-            ->setParameter('name', '%' . $name . '%')
-            ->orderBy('p.title', 'ASC')
-            ->getQuery();
-
-        return $queryBuilder->getResult();
+        $result = [];
+        if(!empty($name)) {
+            $result = $this->createQueryBuilder('p')
+                ->where('p.title LIKE :name')
+                ->setParameter('name', '%' . $name . '%')
+                ->orderBy('p.title', 'ASC')
+                ->getQuery()
+                ->getResult();
+        }
+        return $result;
     }
 
     public function findLikeProgramNameOrActorName(string $name)
     {
-        $queryBuilder = $this->createQueryBuilder('p')
-            ->innerJoin('p.actors', 'a')
-            ->where('p.title LIKE :name')
-            ->orWhere('a.lastname like :name')
-            ->setParameter('name', '%' . $name . '%')
-            ->orderBy('p.title', 'ASC')
-            ->getQuery();
-        return $queryBuilder->getResult();
+        $result = [];
+        if (!empty($name)) {
+            $result = $this->createQueryBuilder('p')
+                ->innerJoin('p.actors', 'a')
+                ->where('p.title LIKE :name')
+                ->orWhere('a.lastname like :name')
+                ->setParameter('name', '%' . $name . '%')
+                ->orderBy('p.title', 'ASC')
+                ->getQuery()
+                ->getResult();
+        }
+        return $result;
     }
 
 //    /**
